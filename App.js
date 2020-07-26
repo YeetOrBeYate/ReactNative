@@ -13,7 +13,7 @@ export default function App() {
   }
 
   const handleAdd = ()=>{
-    setStore([...store, {key: Math.random().toString(), value:enteredGoal}])
+    setStore([...store, enteredGoal])
   }
 
   return (
@@ -31,17 +31,17 @@ export default function App() {
       </View>
       <View>
         <FlatList
-          // The array/list I will be using to render
           data={store}
-          // Function that will be used to render items, similar to map since it needs a key
-          // Thats why I added the course as an object with a random key value
+          // The array/list I will be using to render
+          keyExtractor={(item, index)=> "key"+index.toString()}
+          // dynamically adding the string's array index as the key to Flatlist
           renderItem={itemData=>(
+            // Function that will be used to render items, similar to map since it needs a key(handled above)
             <View style={styles.itemView}>
-              <Text style={{color:'white'}}>{itemData.item.value}</Text>
+              <Text style={{color:'white'}}>{itemData.item}</Text>
             </View>
           )}
         />
-
       </View>
     </View>
   );
