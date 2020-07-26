@@ -1,48 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
-
+import { Text, View, TextInput, Button, FlatList} from 'react-native';
+import {styles, test} from "./Styles/App"
 export default function App() {
 
-  const [outPutText, setOutPutText] = React.useState('Open up App.js to start working on your app!')
 
-  const changeText=()=>{
+  const [enteredGoal, setEnteredGoal] = React.useState("")
+  const [store, setStore] = React.useState([])
 
-    if(outPutText.length === 44){
-      setOutPutText("See! The text changed!")
-    }else{
-      setOutPutText("Open up App.js to start working on your app!")
-    }
+  const handleInput = (text)=>{
+    setEnteredGoal(text)
+  }
+
+  const handleAdd = ()=>{
+    setStore([...store, {key: Math.random().toString(), value:enteredGoal}])
   }
 
   return (
     //Views are like divs, good wrappers and containers for styling
     //this isn't jsx , its just straight javascript 
     <View style={styles.container}>
-      <Text>{outPutText}</Text>
-      <TouchableOpacity onPress={changeText}>
-        <Text style={styles.button} >Change Text</Text>
-      </TouchableOpacity>
+      <View style={styles.inputView}>
+        <TextInput
+         placeholder="Course goal" 
+         style={styles.input}
+         onChangeText={handleInput}
+         value={enteredGoal}
+         />
+        <Button onPress={handleAdd} style={styles.button} title="Add"/>
+      </View>
+      <View>
+        <FlatList
+          // The array/list I will be using to render
+          data={store}
+          // Function that will be used to render items, similar to map since it needs a key
+          // Thats why I added the course as an object with a random key value
+          renderItem={itemData=>(
+            <View style={styles.itemView}>
+              <Text style={{color:'white'}}>{itemData.item.value}</Text>
+            </View>
+          )}
+        />
+
+      </View>
     </View>
   );
 }
 
 // rn doesn't use css but a similar syntax. Again all javascript but similar for easy transition 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor:'black'
-  },
-  button:{
-    margin:20,
-    padding:20,
-    color:'#fff',
-    textAlign:'center',
-    backgroundColor:'#68a0cf',
-    borderWidth: 1,
-    borderColor: 'white'
-  }
-});
+// Moved the style object out of here and into a folder
