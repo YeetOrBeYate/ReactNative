@@ -3,7 +3,7 @@ import {styles} from "../Styles/App"
 import {View, Button, TextInput} from 'react-native'
 import GoalItem from './GoalItem'
 
-import {actionTypes} from "../Redux/CourseActions"
+import {addCourse} from "../Redux/CourseActions"
 
 import {useDispatch} from "react-redux"
 
@@ -17,8 +17,9 @@ const GoalInput = (props)=>{
     }
 
     const handleAdd = ()=>{
-        dispatch({type:actionTypes.ADD_COURSE, payload:{key:Math.random().toString(), value:enteredGoal}})
-        // dispatch({type:'test'})
+        dispatch(addCourse(enteredGoal))
+
+        setEnteredGoal('')
     }
 
 

@@ -2,20 +2,21 @@
 import {actionTypes} from "./CourseActions"
 
 const initialState = {
-    item:[]
+    items:[]
 }
 
 
 export const CourseReducer = (state = initialState, action)=>{
+    console.log(state)
     switch(action.type){
         case actionTypes.ADD_COURSE:
             return {...state, items:[...state.items, action.payload]}
         case actionTypes.DELETE_COURSE:
             //returning the item to the array if !== itemId
-            return {...state, items:state.items.filter(item=>item.id !==action.payload)}
+            return {...state, items:state.items.filter(item=>item.key !== action.payload)}
         case actionTypes.EDIT_COURSE:
             return {...state, items:state.items.map(item=>{
-                if(item.id === action.it){
+                if(item.key === action.id){
                     item = action.payload
                     return item
                 }else{
